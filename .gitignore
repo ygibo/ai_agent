@@ -1,0 +1,26 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv/
+venv/
+.uv/
+.python-version
+.env
+.env.*
+!.env.example
+*.egg-info/
+*/.egg-info/
+src/ai_agent.egg-info/
+
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+Desktop.ini

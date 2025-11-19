@@ -1,0 +1,11 @@
+experiment:
+  name: "cot_gsm8k_small_test"
+  experiment_type: "chain_of_thought"
+  dataset_type: "gsm8k"
+  sample_size: 50
+  
+model:
+  api_type: "openai"
+  model_name: "gpt-3.5-turbo"
+  temperature: 0.0
+  max_tokens: 512

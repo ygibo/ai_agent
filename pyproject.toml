@@ -1,0 +1,21 @@
+[project]
+name = "ai_agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "datasets>=4.4.1",
+    "langchain>=1.0.7",
+    "langchain-openai>=1.0.3",
+    "openai>=2.8.1",
+    "pandas>=2.3.3",
+    "python-dotenv>=1.0.1",
+]
+
+[build-system]
+requires = ["setuptools>=69.0.3", "wheel>=0.42.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
