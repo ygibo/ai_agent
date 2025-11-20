@@ -10,4 +10,3 @@ if __name__ == "__main__":
     di_container: DIContainer = DIContainer(config_path)
     controller: RunExperimentController = di_container.get_experiment_controller()
     result: dict[str, Any] = controller.run()
-    print(result)

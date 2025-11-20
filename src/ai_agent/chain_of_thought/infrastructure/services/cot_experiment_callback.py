@@ -88,3 +88,12 @@ class CotExperimentCallback(ExperimentCallback):
             "error": str(exc)
         }
         print(json.dumps(json_Log, indent=4))
+
+    def on_experiment_result(self, result: dict[str, Any]) -> None:
+        json_Log = {
+            "event": "experiment_result",
+            "experiment_id": self.__experiment_id,
+            "timestamp": self.__get_timestamp(),
+            "result": result
+        }
+        print(json.dumps(json_Log, indent=4))

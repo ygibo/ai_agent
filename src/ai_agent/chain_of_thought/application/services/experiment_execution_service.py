@@ -5,6 +5,7 @@ from ai_agent.chain_of_thought.domain.services.prompt_service import PromptServi
 from ai_agent.common.domain.value_objects.chat_message import ChatMessage
 from ai_agent.common.domain.value_objects.chat_role import ChatRole
 from decimal import Decimal
+from ai_agent.common.application.services.experiment_callback import ExperimentCallback
 
 
 class ExperimentExecutionService:
@@ -56,25 +57,32 @@ class ExperimentExecutionService:
     def run_experiment(
         self,
         dataset: list[dict],
-        prompt_service: PromptService
+        prompt_service: PromptService,
+        experiment_callback: ExperimentCallback
     ) -> None:
         results = []
 
         for idx, item in enumerate(dataset):
+            experiment_callback.on_iteration_start(idx, item)
             q = item["question"]
             gt = ExperimentExecutionService.__extract_answer_from_ground_truth(item["answer"])
+
             prompt = prompt_service.get_prompt(q)
-            #print(f"Prompt: {prompt}")
+            experiment_callback.on_llm_request(idx, prompt)
             chat_message = ChatMessage(role=ChatRole.USER, content=prompt)
             response = self.__llm_client.generate_text(None, [chat_message])
-            # print(f"Response: {response.content}")
+            experiment_callback.on_llm_response(idx, response)
             answer = ExperimentExecutionService.__extract_answer(response.content)
-            #print(f"Answer: {answer}, Ground truth: {gt}")
             if ExperimentExecutionService.__equal_numbers(answer, gt):
                 results.append(True)
             else:
                 results.append(False)
-        print(f"Accuracy: {sum(results) / len(results)}")
+            experiment_callback.on_iteration_end(idx, {
+                "answer": answer,
+                "ground_truth": gt,
+                "result": results[idx]
+            })
+        
         return {
             "accuracy": sum(results) / len(results)
         }

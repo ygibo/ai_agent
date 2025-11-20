@@ -19,8 +19,18 @@ class LLMClientFactory:
             key = api_key or os.environ.get("OPENAI_API_KEY")
             if not key:
                 raise ValueError("OPENAI_API_KEY が設定されていません。.env または環境変数で設定してください。")
-            return OpenAIClientService(key, model_name, temperature, max_tokens)
+            return OpenAIClientService(
+                key,
+                model_name,
+                temperature,
+                max_tokens
+            )
         elif api_type == "lmstudio":
-            return LMStudioClientService(base_url, model_name, temperature, max_tokens)
+            return LMStudioClientService(
+                base_url,
+                model_name,
+                temperature,
+                max_tokens
+            )
         else:
             raise ValueError(f"Invalid LLM client type: {api_type}")

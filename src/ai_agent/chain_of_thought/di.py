@@ -3,11 +3,17 @@ from ai_agent.chain_of_thought.application.services.experiment_service import Ex
 from ai_agent.common.infrastructure.factories.llm_client_factory import LLMClientFactory
 from ai_agent.common.application.services.llm_client_protocol import LLMClientProtocol
 from ai_agent.chain_of_thought.presentation.commands.experiemt_config import ExperimentConfig, load_experiment_config
+from ai_agent.chain_of_thought.infrastructure.services.cot_experiment_callback import CotExperimentCallback
+from ai_agent.common.application.services.experiment_callback import ExperimentCallback
 
 
 class DIContainer:
     def __init__(self, config_path: str):
         self.experiment_config: ExperimentConfig = load_experiment_config(config_path)
+        self.experiment_callback: ExperimentCallback = CotExperimentCallback(
+            experiment_id=None,
+            is_debug=True
+        )
     
     def get_experiment_controller(self) -> RunExperimentController:
         llm_client: LLMClientProtocol = LLMClientFactory.create_llm_client(
@@ -20,7 +26,12 @@ class DIContainer:
         )
         experiment_service: ExperimentService = ExperimentService(
             llm_client,
-            self.experiment_config.sample_size
+            self.experiment_config.sample_size,
+            self.experiment_callback
         )
-        return RunExperimentController(experiment_service, self.experiment_config)
+        return RunExperimentController(
+            experiment_service,
+            self.experiment_config,
+            self.experiment_callback
+        )
 

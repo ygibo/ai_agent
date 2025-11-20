@@ -14,7 +14,7 @@ class OpenAIClientService(LLMClientProtocol):
             temperature=temperature,
             max_tokens=max_tokens
         )
-
+        
     def __to_messages(self, system_prompt: Optional[str], messages: list[ChatMessage]) -> list[dict[str, str]]:
         __messages = []
 
