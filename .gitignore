@@ -24,3 +24,8 @@ src/ai_agent.egg-info/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Hydra outputs
+outputs/
+mult
+log/

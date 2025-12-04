@@ -1,4 +1,4 @@
-from ai_agent.common.application.services.llm_client_protocol import LLMClientProtocol
+from ai_agent.common.domain.services.llm_client_protocol import LLMClientProtocol
 try:
     from langchain_openai import ChatOpenAI  # type: ignore[reportMissingImports]
 except Exception:

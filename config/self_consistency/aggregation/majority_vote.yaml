@@ -1,0 +1,3 @@
+method: "majority_vote"
+num_samples: 10
+tie_breaker: "random"

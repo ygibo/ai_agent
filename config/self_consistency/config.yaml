@@ -1,0 +1,18 @@
+defaults:
+  - _self_
+  - model: gpt35
+  - sampling: top_p_sampling
+  - aggregation: majority_vote
+  - prompt: few_shot_cot
+  - algorithm: self_consistency
+  - dataset: gsm8k
+
+experiment:
+  name: "self_consistency_gsm8k_small_test"
+
+hydra:
+  run:
+    dir: "log/${experiment.name}/${now:%Y-%m-%d_%H-%M-%S}"
+  sweep:
+    dir: "log/${experiment.name}/${now:%Y-%m-%d_%H-%M-%S}/multirun"
+    subdir: "${hydra.job.num}"

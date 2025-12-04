@@ -1,6 +1,6 @@
 import random
 from ai_agent.chain_of_thought.application.services.experiment_execution_service import ExperimentExecutionService
-from ai_agent.common.application.services.llm_client_protocol import LLMClientProtocol
+from ai_agent.common.domain.services.llm_client_protocol import LLMClientProtocol
 from ai_agent.chain_of_thought.domain.value_objects.dataset_types import DatasetType
 from datasets import load_dataset
 from ai_agent.chain_of_thought.domain.services.prompt_service import PromptService

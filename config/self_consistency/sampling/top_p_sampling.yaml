@@ -1,0 +1,4 @@
+method: "top_p"
+temperature: 0.5
+top_p: 0.9
+num_samples_per_query: 10

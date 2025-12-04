@@ -1,6 +1,6 @@
 import os
 from typing import Optional
-from ai_agent.common.application.services.llm_client_protocol import LLMClientProtocol
+from ai_agent.common.domain.services.llm_client_protocol import LLMClientProtocol
 from ai_agent.common.infrastructure.services.open_ai_client_service import OpenAIClientService
 from ai_agent.common.infrastructure.services.lm_studio_client_service import LMStudioClientService
 

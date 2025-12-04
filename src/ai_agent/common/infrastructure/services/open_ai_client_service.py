@@ -1,4 +1,4 @@
-from ai_agent.common.application.services.llm_client_protocol import LLMClientProtocol
+from ai_agent.common.domain.services.llm_client_protocol import LLMClientProtocol
 from langchain_openai.chat_models import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage, ToolMessage
 from ai_agent.common.domain.value_objects.chat_message import ChatMessage

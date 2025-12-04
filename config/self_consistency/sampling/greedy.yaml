@@ -1,0 +1,4 @@
+method: "greedy"
+temperature: 0.0
+top_p: 1.0
+num_samples_per_query: 1

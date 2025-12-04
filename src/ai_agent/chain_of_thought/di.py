@@ -1,7 +1,7 @@
 from ai_agent.chain_of_thought.presentation.commands.run_experiment_controller import RunExperimentController
 from ai_agent.chain_of_thought.application.services.experiment_service import ExperimentService
 from ai_agent.common.infrastructure.factories.llm_client_factory import LLMClientFactory
-from ai_agent.common.application.services.llm_client_protocol import LLMClientProtocol
+from ai_agent.common.domain.services.llm_client_protocol import LLMClientProtocol
 from ai_agent.chain_of_thought.presentation.commands.experiemt_config import ExperimentConfig, load_experiment_config
 from ai_agent.chain_of_thought.infrastructure.services.cot_experiment_callback import CotExperimentCallback
 from ai_agent.common.application.services.experiment_callback import ExperimentCallback

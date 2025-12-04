@@ -1,6 +1,6 @@
 import random
 import re
-from ai_agent.common.application.services.llm_client_protocol import LLMClientProtocol
+from ai_agent.common.domain.services.llm_client_protocol import LLMClientProtocol
 from ai_agent.chain_of_thought.domain.services.prompt_service import PromptService
 from ai_agent.common.domain.value_objects.chat_message import ChatMessage
 from ai_agent.common.domain.value_objects.chat_role import ChatRole
