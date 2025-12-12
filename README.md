@@ -7,5 +7,11 @@
 
 # 実行方法
 - chain of thought
-  uv run python -m ai_agent.chain_of_thought.run_experiment
+  - few shot chain of thought prompting
+    uv run python -m ai_agent.chain_of_thought.run_experiment
+  - standard prompt
+    uv run python -m ai_agent.chain_of_thought.run_experiment prompt=standard experiment.experiment_name=standard_prompt_gsm8k_small_test
+- self consistency
+  - sampling 1,5,10
+    uv run python -m ai_agent.self_consistency.run_experiment prompt=few_shot_cot sampling.num_samples_per_query=1,5,10
   

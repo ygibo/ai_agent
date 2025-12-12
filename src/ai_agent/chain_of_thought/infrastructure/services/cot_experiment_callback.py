@@ -1,9 +1,11 @@
 from ai_agent.common.application.services.experiment_callback import ExperimentCallback
 from typing import Any, Optional
-from ai_agent.common.domain.value_objects.chat_message import ChatMessage
+from ai_agent.common.domain.chat.value_objects.chat_message import ChatMessage
 import uuid
 import datetime
 import json
+import logging
+logger = logging.getLogger("experiment")
 
 
 class CotExperimentCallback(ExperimentCallback):
@@ -26,7 +28,7 @@ class CotExperimentCallback(ExperimentCallback):
             "timestamp": self.__get_timestamp(),
             "config": config
         }
-        print(json.dumps(json_Log, indent=4))
+        logger.info(json.dumps(json_Log, indent=4))
 
     def on_experiment_end(self, summary: dict[str, Any]) -> None:
         json_Log = {
@@ -35,7 +37,7 @@ class CotExperimentCallback(ExperimentCallback):
             "timestamp": self.__get_timestamp(),
             "summary": summary
         }
-        print(json.dumps(json_Log, indent=4))
+        logger.info(json.dumps(json_Log, indent=4))
 
     def on_iteration_start(self, index: int, sample: dict[str, Any]) -> None:
         json_Log = {
@@ -45,7 +47,7 @@ class CotExperimentCallback(ExperimentCallback):
             "index": index,
             "sample": sample
         }
-        print(json.dumps(json_Log, indent=4))
+        logger.info(json.dumps(json_Log, indent=4))
 
     def on_llm_request(self, index: int, prompt: str) -> None:
         if self.__is_debug:
@@ -56,18 +58,18 @@ class CotExperimentCallback(ExperimentCallback):
                 "index": index,
                 "prompt": prompt
             }
-            print(json.dumps(json_Log, indent=4))
+            logger.info(json.dumps(json_Log, indent=4))
 
-    def on_llm_response(self, index: int, message: ChatMessage) -> None:
+    def on_llm_response(self, index: int, messages: list[ChatMessage]) -> None:
         if self.__is_debug:
             json_Log = {
                 "event": "llm_response",
                 "experiment_id": self.__experiment_id,
                 "timestamp": self.__get_timestamp(),
                 "index": index,
-                "message": message.model_dump(mode="json")
+                "messages": [message.model_dump(mode="json") for message in messages]
             }
-            print(json.dumps(json_Log, indent=4))
+            logger.info(json.dumps(json_Log, indent=4))
             
     def on_iteration_end(self, index: int, result: dict[str, Any]) -> None:
         json_Log = {
@@ -77,7 +79,7 @@ class CotExperimentCallback(ExperimentCallback):
             "index": index,
             "result": result
         }
-        print(json.dumps(json_Log, indent=4))
+        logger.info(json.dumps(json_Log, indent=4))
             
     def on_error(self, index: Optional[int], exc: Exception) -> None:
         json_Log = {
@@ -87,7 +89,7 @@ class CotExperimentCallback(ExperimentCallback):
             "index": index,
             "error": str(exc)
         }
-        print(json.dumps(json_Log, indent=4))
+        logger.info(json.dumps(json_Log, indent=4))
 
     def on_experiment_result(self, result: dict[str, Any]) -> None:
         json_Log = {
@@ -96,4 +98,4 @@ class CotExperimentCallback(ExperimentCallback):
             "timestamp": self.__get_timestamp(),
             "result": result
         }
-        print(json.dumps(json_Log, indent=4))
+        logger.info(json.dumps(json_Log, indent=4))

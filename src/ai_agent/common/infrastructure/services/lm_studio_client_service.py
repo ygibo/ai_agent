@@ -1,4 +1,4 @@
-from ai_agent.common.domain.services.llm_client_protocol import LLMClientProtocol
+from ai_agent.common.domain.ports.llm_client_protocol import LLMClientProtocol
 try:
     from langchain_openai import ChatOpenAI  # type: ignore[reportMissingImports]
 except Exception:
@@ -7,8 +7,8 @@ try:
     from langchain_core.messages import SystemMessage, HumanMessage, AIMessage  # type: ignore[reportMissingImports]
 except Exception:
     SystemMessage = HumanMessage = AIMessage = None  # type: ignore[assignment]
-from ai_agent.common.domain.value_objects.chat_message import ChatMessage
-from ai_agent.common.domain.value_objects.chat_role import ChatRole
+from ai_agent.common.domain.chat.value_objects.chat_message import ChatMessage
+from ai_agent.common.domain.chat.value_objects.chat_role import ChatRole
 from typing import Optional
 
 

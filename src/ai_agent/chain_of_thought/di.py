@@ -1,37 +1,18 @@
-from ai_agent.chain_of_thought.presentation.commands.run_experiment_controller import RunExperimentController
-from ai_agent.chain_of_thought.application.services.experiment_service import ExperimentService
-from ai_agent.common.infrastructure.factories.llm_client_factory import LLMClientFactory
-from ai_agent.common.domain.services.llm_client_protocol import LLMClientProtocol
-from ai_agent.chain_of_thought.presentation.commands.experiemt_config import ExperimentConfig, load_experiment_config
+from omegaconf import DictConfig
+from ai_agent.common.presentation.commands.run_reasoning_experiment_base import RunReasoningExperimentBase
+from ai_agent.chain_of_thought.presentation.commands.run_cot_experiment_controller import RunCotExperimentController
+from ai_agent.common.application.services.reasoning_experiment_service import ReasoningExperimentService
 from ai_agent.chain_of_thought.infrastructure.services.cot_experiment_callback import CotExperimentCallback
 from ai_agent.common.application.services.experiment_callback import ExperimentCallback
+from ai_agent.common.di.reasoning_di import build_reasoning_experiment_service
 
 
-class DIContainer:
-    def __init__(self, config_path: str):
-        self.experiment_config: ExperimentConfig = load_experiment_config(config_path)
-        self.experiment_callback: ExperimentCallback = CotExperimentCallback(
-            experiment_id=None,
-            is_debug=True
-        )
-    
-    def get_experiment_controller(self) -> RunExperimentController:
-        llm_client: LLMClientProtocol = LLMClientFactory.create_llm_client(
-            self.experiment_config.api_type,
-            self.experiment_config.base_url,
-            self.experiment_config.api_key,
-            self.experiment_config.model_name,
-            self.experiment_config.temperature,
-            self.experiment_config.max_tokens
-        )
-        experiment_service: ExperimentService = ExperimentService(
-            llm_client,
-            self.experiment_config.sample_size,
-            self.experiment_callback
-        )
-        return RunExperimentController(
-            experiment_service,
-            self.experiment_config,
-            self.experiment_callback
-        )
-
+def build_cot_experiment_controller(
+    cfg: DictConfig
+) -> RunReasoningExperimentBase:
+    experiment_callback: ExperimentCallback = CotExperimentCallback(
+        experiment_id=None,
+        is_debug=True
+    )
+    reasoning_experiment_service: ReasoningExperimentService = build_reasoning_experiment_service(cfg, experiment_callback)
+    return RunCotExperimentController(reasoning_experiment_service)
