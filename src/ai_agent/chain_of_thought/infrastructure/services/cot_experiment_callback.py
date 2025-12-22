@@ -49,14 +49,15 @@ class CotExperimentCallback(ExperimentCallback):
         }
         logger.info(json.dumps(json_Log, indent=4))
 
-    def on_llm_request(self, index: int, prompt: str) -> None:
+    def on_llm_request(self, index: int, system_prompt: Optional[str], question: str) -> None:
         if self.__is_debug:
             json_Log = {
                 "event": "llm_request",
                 "experiment_id": self.__experiment_id,
                 "timestamp": self.__get_timestamp(),
                 "index": index,
-                "prompt": prompt
+                "system_prompt": system_prompt,
+                "question": question
             }
             logger.info(json.dumps(json_Log, indent=4))
 

@@ -1,0 +1,57 @@
+@startuml
+
+title Conversation Sequence
+
+actor User
+boundary UI
+boundary Api
+control ConversationController
+control ConversationService
+
+boundary ConversationRepository
+boundary SegmentRepository
+boundary MessageRepository
+boundary ConversationSearchService
+boundary SegmentSearchService
+entity Conversation
+entity Segment
+entity Message
+
+== アプリケーションの起動 ==
+activate User
+activate API
+User -> UI: UI を起動する
+activate UI
+UI -> Api: GET /v1/conversations?order_by=created_at&order=desc \nで会話の一覧を取得する
+Api -> ConversationController: list_conversations(order_by, order, limit, token)
+activate ConversationController
+ConversationController -> ConversationService: list_conversations(order_by, order, limit, token)
+activate ConversationService
+ConversationService -> ConversationSearchService: search_conversations(order_by, order, limit, token)
+activate ConversationSearchService
+ConversationSearchService --> Conversation: create()
+ConversationSearchService --> ConversationService: return conversations
+deactivate ConversationSearchService
+ConversationService --> ConversationController: return [{conversation_id, title, created_at}, ...]
+deactivate ConversationService
+ConversationController --> Api: return [{conversation_id, title, created_at}, ...]
+deactivate ConversationController
+Api --> UI: 会話の[(conversation_id, title, created_at), ...]を返す
+UI -> UI: 会話の一覧を作成順の降順で表示する
+UI -> UI: 新規会話画面を初期化する
+UI -> User: 新規会話画面を表示する
+
+== 既存の会話を選択する ==
+User -> UI: ルート会話の一覧から会話を選択する
+UI -> Api: GET /v1/conversations/{conversation_id}/messages?order_by=cardinality&order=asc で会話を取得する
+API -> ConversationController: list_messages(conversation_id, order_by, order, limit, token)
+activate ConversationController
+ConversationController -> ConversationService: list_messages(conversation_id, order_by, order, limit, token)
+activate ConversationService
+ConversationService -> ConversationRepository: find(conversation_id)
+activate ConversationRepository
+ConversationRepository --> Conversation: create()
+ConversationRepository --> ConversationService: return conversation
+deactivate ConversationRepository
+
+Api --> UI: 

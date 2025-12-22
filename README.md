@@ -3,6 +3,7 @@
 現在は以下を行った
 - chain of thought (https://arxiv.org/abs/2201.11903)
   - gpt4 の場合は standard prompt と CoT prompt で正答率に差はなく gpt3.5 を使用した場合正答率が 42% から 80% と上昇。gsm8k データセットの一部を使用し再現に成功
+  - llm に渡すときに standard prompt, CoT prompt を system_prompt として渡し、question を user_message として渡したところ standard prompt でも CoT が発生するようになり結果が変わった。それ自体面白い現象だが、比較実験のため standard prompt に "Do NOT show your reasoning steps." と追加する
 - self consistency (https://arxiv.org/abs/2203.11171)
   - gpt3.5 の場合では Self-Consistency を用いても明示的に性能の向上がみられなかった。
 

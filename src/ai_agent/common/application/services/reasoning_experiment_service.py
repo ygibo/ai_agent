@@ -33,10 +33,11 @@ class ReasoningExperimentService:
             self.__experiment_callback.on_iteration_start(idx, item)
             question = item["question"]
             ground_truth = self.__task_protocol.extract_answer_from_ground_truth(item["answer"])
-            prompt = self.__task_protocol.build_prompt(question)
+            system_prompt = self.__task_protocol.build_system_prompt(question, context=None)
+            user_prompt = self.__task_protocol.build_user_prompt(question, context=None)
 
-            self.__experiment_callback.on_llm_request(idx, prompt)
-            reasoning_result: ReasoningResult = self.__reasoning_algorithm.infer_answer(prompt)
+            self.__experiment_callback.on_llm_request(idx, system_prompt, user_prompt)
+            reasoning_result: ReasoningResult = self.__reasoning_algorithm.infer_answer(system_prompt, user_prompt)
             self.__experiment_callback.on_llm_response(idx, reasoning_result.messages)
             
             answer = reasoning_result.final_answer

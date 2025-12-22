@@ -85,7 +85,8 @@ def build_prompt_service(
     cfg: DictConfig
 ) -> PromptServiceProtocol:
     prompt_config = PromptConfig(
-        prompt_name=cfg.prompt.prompt_name
+        prompt_name=cfg.prompt.prompt_name,
+        version=cfg.prompt.version
     )
     dataset_config = DatasetConfig(
         dataset_name=cfg.dataset.dataset_name,

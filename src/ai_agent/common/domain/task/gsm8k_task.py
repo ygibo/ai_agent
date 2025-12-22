@@ -2,6 +2,7 @@ import re
 from decimal import Decimal
 from ai_agent.common.domain.task.task_protocol import TaskProtocol
 from ai_agent.common.domain.prompt.prompt_service_protocol import PromptServiceProtocol
+from typing import Optional
 
 
 class GSM8KTask(TaskProtocol):
@@ -9,11 +10,14 @@ class GSM8KTask(TaskProtocol):
         self,
         prompt_service: PromptServiceProtocol
     ):
-        self.__prompt_service = prompt_service
+        self.__prompt_service: PromptServiceProtocol = prompt_service
     
-    def build_prompt(self, question: str) -> str:
-        return self.__prompt_service.get_prompt(question)
-    
+    def build_system_prompt(self, question: str, context: Optional[dict]) -> str:
+        return self.__prompt_service.get_system_prompt(question, context)
+
+    def build_user_prompt(self, question: str, context: Optional[dict]) -> str:
+        return self.__prompt_service.get_user_prompt(question, context)
+
     def extract_answer(self, response: str) -> str:
         lines = response.splitlines()
         answer_line = None
@@ -39,10 +43,10 @@ class GSM8KTask(TaskProtocol):
 
     @staticmethod
     def __normalize_number(number: str) -> str:
-        m = re.search(r"-?\d+(?:\.\d+)?", number)
-        if not m:
-            return None
         try:
+            m = re.search(r"-?\d+(?:\.\d+)?", number)
+            if not m:
+                return None
             return Decimal(m.group(0))
         except Exception as e:
             return None

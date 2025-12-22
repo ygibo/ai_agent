@@ -5,6 +5,7 @@ from ai_agent.common.domain.aggregation.aggregation_protocol import AggregationM
 from ai_agent.common.domain.chat.value_objects.chat_message import ChatMessage
 from ai_agent.common.domain.chat.value_objects.chat_role import ChatRole
 from ai_agent.common.domain.reasoning_algorithms.value_objects.reasoning_result import ReasoningResult
+from typing import Optional
 
 
 class NormalReasoningAlgorithm(ReasoningAlgorithmProtocol):
@@ -20,11 +21,12 @@ class NormalReasoningAlgorithm(ReasoningAlgorithmProtocol):
 
     def infer_answer(
         self,
-        prompt: str,
+        system_prompt: Optional[str],
+        question: str
     ) -> str:
         samples: list[ChatMessage] = self.__sampling_method.sample(
-            system_prompt=None,
-            messages=[ChatMessage(role=ChatRole.USER, content=prompt)]
+            system_prompt=system_prompt,
+            messages=[ChatMessage(role=ChatRole.USER, content=question)]
         )
         if samples is None or len(samples) == 0:
             raise ValueError("No samples found")

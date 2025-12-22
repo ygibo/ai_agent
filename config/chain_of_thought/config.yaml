@@ -14,7 +14,7 @@ experiment:
 
 hydra:
   run:
-    dir: "log/${experiment.experiment_name}/${now:%Y-%m-%d_%H-%M-%S}"
+    dir: "log/${model.model_name}/${prompt.prompt_name}/${prompt.version}/${now:%Y-%m-%d_%H-%M-%S}"
   sweep:
-    dir: "log/${experiment.experiment_name}/${now:%Y-%m-%d_%H-%M-%S}/multirun"
+    dir: "log/${model.model_name}/${prompt.prompt_name}/${prompt.version}/${now:%Y-%m-%d_%H-%M-%S}/multirun"
     subdir: "${hydra.job.num}"

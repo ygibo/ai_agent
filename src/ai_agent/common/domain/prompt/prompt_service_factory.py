@@ -10,8 +10,8 @@ def create_prompt_service(
     dataset_config: DatasetConfig
 ) -> PromptServiceProtocol:
     if prompt_config.prompt_name == "few_shot_cot":
-        return CotPromptService(dataset_type=dataset_config.get_dataset_type())
+        return CotPromptService(dataset_type=dataset_config.get_dataset_type(), version=prompt_config.version)
     elif prompt_config.prompt_name == "standard":
-        return StandardPromptService(dataset_type=dataset_config.get_dataset_type())
+        return StandardPromptService(dataset_type=dataset_config.get_dataset_type(), version=prompt_config.version)
     else:
         raise ValueError(f"Invalid prompt service: {prompt_config.prompt_name}")
